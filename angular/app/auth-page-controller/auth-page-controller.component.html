@@ -1,0 +1,51 @@
+<mat-card class="example-card">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Форма авторизации пользователя:</mat-card-title>
+        <mat-card-subtitle>Введите свои данные для продолжения работы.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="example-content">
+        <form class="example-form" [formGroup] = "authForm" id="form2" name="form2" (ngSubmit)="onSubmit()">
+            <mat-form-field class="example-full-width">
+                <input matInput formControlName="email" form="form2" type="email" placeholder="Email" [formControl]="emailFormControl">
+                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                    Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="emailFormControl.hasError('required')">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <input matInput formControlName="login" form="form2" type="text" placeholder="Login" [formControl]="loginFormControl">
+                <mat-error *ngIf="loginFormControl.hasError('pattern') && !loginFormControl.hasError('required')">
+                    Please enter a valid login name.
+                </mat-error>
+                <mat-error *ngIf="loginFormControl.hasError('required')">
+                   Login is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <input matInput formControlName="password" form="form2" type="password" placeholder="Password" [formControl]="passwordFormControl">
+                <mat-error *ngIf="passwordFormControl.hasError('pattern') && !passwordFormControl.hasError('required')">
+                    Please enter a valid password.
+                </mat-error>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <!--<div class="g-recaptcha">-->
+                 <!--<re-captcha (resolved)="resolved($event)" ></re-captcha>-->
+                  <!--<mat-error *ngIf="!recaptchaReactiveForm">-->
+                    <!--Captcha value: <strong>error.</strong>-->
+                 <!--</mat-error>-->
+            <!--</div>-->
+
+            <mat-card-actions>
+                <button mat-raised-button type="submit" form="form2" class="center">Login</button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
+</mat-card>
+

@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+    <mat-form-field>
+      <mat-select placeholder="User for call" panelClass="example-panel-green"
+                  [(ngModel)]="userCallControll">
+        <mat-option *ngFor="let user of this.users.users|async;" (onSelectionChange)="SellectUser(user)"
+                    [value]="user.email">{{user.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="button-row">
+      <button mat-icon-button [disabled]="!this.toogle" (click)="callUser()">
+        <mat-icon aria-label="Example icon-button with a heart icon">videocam</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" [disabled]="this.toogle" (click)="endCurrentCall()">
+        <mat-icon aria-label="Example icon-button with a heart icon">videocam_off</mat-icon>
+      </button>
+      <button mat-icon-button color="primary">
+        <mat-icon aria-label="Example icon-button with a heart icon">video_call</mat-icon>
+      </button>
+      <button mat-icon-button color="primary">
+        <mat-icon aria-label="Example icon-button with a heart icon">send</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-6">
+    <video class="mat-elevation-z5" #video1 style="width: 100%!important; height: 50%;"></video>
+  </div>
+  <div class="col-md-6 col-sm-6">
+    <video class="mat-elevation-z5" #video2 style="width: 100%!important; height: 50%;"></video>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<h3 style="color: #FF80AB; text-align: center;">Chat page</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <mat-card class="example-card" style="width: 100%">
+                <mat-card-content style="width: 100%">
+
+                    <mat-form-field style="width: 98%!important; margin-left: 1%!important;" appearance="outline">
+                        <!--<mat-label>Message text</mat-label>-->
+                    <textarea matInput placeholder="Message" matTextareaAutosize matAutosizeMinRows="5"
+                        appDebounce (debounceEnter)="typing(false)" [debounceTime]="1000"
+                        appAntyDebounce [debounceStartTime]="200" (debounceEnterStart)="typing(true)"
+                        matAutosizeMaxRows="10" [(ngModel)]="message" [disabled]="!!this.permissionsService.getPermission('Bun')"
+                    ></textarea>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-select placeholder="User for call" [(ngModel)]="UserControll"
+                                    panelClass="example-panel-green">
+                            <mat-option *ngFor="let user of this.authEvent.users | async;"
+                                        [value]="user.name">{{user.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                          </mat-card-content>
+                          <mat-card-actions>
+                              <button color="accent" style="color: #FF1744"
+                                       [disabled]="!!this.permissionsService.getPermission('Bun')" (click)="start()"
+                                       mat-button tooltip="Send message" placement="top" show-delay="500">send
+                                  <mat-icon [style.color]="!!this.permissionsService.getPermission('Bun')?'#FF80AB':'#FF1744'">send</mat-icon>
+                              </button>
+                              <button color="primary" style="color: #3F51B5" (click)="message=''"
+                                      [disabled]="!!this.permissionsService.getPermission('Bun')"
+                                      mat-button tooltip="Clear message field" placement="top" show-delay="500">clear
+                                  <mat-icon
+                                          [style.color]="!!this.permissionsService.getPermission('Bun')?'#8C9EFF':'#3F51B5'">
+                                      loop</mat-icon>
+                              </button>
+                              <button (click)="test()"
+                                      mat-raised-button style="background: #FF9800!important;
+                                        color: #FFF3E0!important;" tooltip="call to user" placement="bottom" show-delay="500">Start call
+                                  <mat-icon>video_call</mat-icon>
+                              </button>
+                              <button routerLink="/video_chat"
+                                      mat-raised-button style="background: #9C27B0!important;
+                                        color: #F3E5F5!important;">Redirect
+                                  <mat-icon>link</mat-icon>
+                              </button>
+                              <button (click)="adminMess()" mat-raised-button style="background: #00BFA5!important;
+                                        color: #E0F2F1!important;"
+                                      tooltip="service messages" placement="bottom" show-delay="500" (click)="animateMe()">Online
+                                  <mat-icon>info</mat-icon>
+                                  <span class="dynamic-badge mat-elevation-z2" [attr.data-badge]="this.admin_mess.length"
+                                        *ngIf="this.admin_mess.length > 0">
+                                  </span>
+                              </button>
+                          </mat-card-actions>
+                      </mat-card>
+            <mat-card [hidden]="show" style="width: 100%!important; padding: 0px!important; margin: 0px!important;">
+                <mat-card-content class="example-container">
+                    <div style="overflow-y: auto; overflow-x: scroll; max-height: 150px; margin: 15px 0px;
+                                background: #E8F5E9" >
+                    <div *ngFor="let message of admin_mess.messages | async;">
+                        <!--<div [@zoomInLeft]="{ state: 'inactive', value: zoomInLeft, params: { timing: myTiming || 5, delay: myDelay || 2 } }">-->
+                            <div [style.background]="color" class="Mess" [@my_anim]="state">
+                                <span style="color: #EFEBE9; font-size: 11px;">
+                                    {{message.message.created_at['date'].replace('.000000','','g')|date}}
+                                </span><br>
+                                <span style="color: #FFFFFF; font-size: 14px;">{{message.message.body_massage}}</span>
+                                <button mat-icon-button class="MessDel" (click)="deleteAdminMessage(message.message.id)">
+                                    <mat-icon aria-label="delete message" class="MessTxt">close</mat-icon>
+                                </button>
+                            </div>
+                        <!--</div>-->
+                    </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+                  </div>
+
+                  <div class="col-md-8 col-sm-8">
+                      <mat-card class="example-card card2" >
+                          <mat-card-content style="width: 100%; ">
+                               <span style="color: #9BA2AB; font-size: 25px; letter-spacing: 2px; text-align: center">
+                                  {{clock | async | date:"EEEE, MMMM d, y H:mm"}} </span>
+                              <div class="section-divider">
+                              </div>
+                              <mat-divider></mat-divider>
+
+                              <!--Messages-->
+                    <div style="overflow-y: auto; overflow-x: hidden; max-height: 320px; margin: 15px 0px;
+                                background: #FFFDE7">
+
+                        <div *ngFor="let message of Messages | async; let delete=index;"
+                             style="overflow: hidden; max-height: 400px; padding: 30px 0px;">
+                            <div *ngFor="let online of users | async;">
+                                <div *ngIf="online.name===message.message.user_nickname">
+                            <div style="position:relative;">
+                            <p [style.background]="!!message.message.color?message.message.color:'#FF1744'"
+                               [class.mat-elevation-z5]="true"
+                               [class.mainP1]="message.message.user_nickname===User['login']"
+                               [class.mainP2]="message.message.user_nickname!==User['login']"
+                               (click)="this.mess_serevice.toogleBut(delete)"
+                               tooltip="Click if you want delete this message" show-delay="500">
+                                <span class="name">{{message.message.user_nickname}}</span><br>
+                                <span class="alltext">{{message.message.body_massage}}</span><br>
+                                <span [class.alltextBot]="message.message.user_nickname===User['login']"
+                                      [class.alltextBot2]="message.message.user_nickname!==User['login']">
+                            {{message.message.created_at}}</span>
+                                <span [hidden]="message.status" class="load-text" >
+                                    <span style="position: relative; left: 30%;">
+                                        User enters text...</span><div class="bar"></div>
+                                </span>
+
+                                <span [class.NetIndicateOn]="online.indicate"
+                                      [class.NetIndicateOff]="!online.indicate">
+                                    {{online.indicate?'Online':'Offline'}}</span>
+
+                                <mat-icon [class.icon1]="message.message.user_nickname===User['login']"
+                                          [class.icon2]="message.message.user_nickname!==User['login']">
+                                    person_pin
+                                </mat-icon>
+                            </p>
+                                <button [hidden]="message.button"
+                                        (click)="deleteMess(message.message.id,
+                                        message.message.user_nickname!==User['login'],
+                                        message)"
+                                        [class.Close2]="message.message.user_nickname!==User['login']"
+                                        [class.Close1]="message.message.user_nickname===User['login']"
+                                        mat-mini-fab tooltip="Delete this message" show-delay="500">
+                                    <mat-icon aria-label="delete message icon">close</mat-icon>
+                                </button>
+                            </div>
+
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <video #video class="video mat-elevation-z5"></video>
+        </div>
+    </div>
+</div>
+
+

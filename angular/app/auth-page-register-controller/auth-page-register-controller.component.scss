@@ -1,0 +1,35 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+
+.example-card {
+  max-width: 500px;
+  min-width: 300px;
+  max-height: 70%;
+  background: linear-gradient(to right, rgba(127, 255, 212, 0.7) -50%, rgba(224, 255, 255, 0.4) 150%);
+  margin: auto;
+}
+
+.example-header-image {
+  background-image: url('https://www.shareicon.net/download/2016/05/29/772558_user_512x512.png');
+  background-size: cover;
+}
+
+
+.example-content{
+  // background: azure url("https://png.pngtree.com/element_origin_min_pic/16/10/28/a7092ac9d8312ba25407c55e5fc09497.jpg") no-repeat;
+  // background-position: center;
+  //  background-size: 100%;
+}
+
+.center{
+  position: relative;
+  left: 40%;
+}

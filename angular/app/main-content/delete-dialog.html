@@ -1,0 +1,9 @@
+<h1 mat-dialog-title style="color: #5e5e5e">Информационное сообщение</h1>
+<div mat-dialog-content>
+    <p style="color: #5e5e5e; text-align: center">Удалить сообщение из чата навсегда?</p>
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Нет</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="data.id" cdkFocusInitial>Да</button>
+</div>

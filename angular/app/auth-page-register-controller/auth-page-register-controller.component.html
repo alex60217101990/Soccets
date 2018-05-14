@@ -1,0 +1,72 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Форма регистрации пользователя:</mat-card-title>
+    <mat-card-subtitle>Введите свои данные чтобы зарегистрироваться.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="example-content">
+    <form class="example-form" [formGroup] = "authForm" id="form1" name="form1" #myForm="ngForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width">
+        <input matInput formControlName="email" type="email" placeholder="Email" [formControl]="emailFormControl">
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput formControlName="login" type="text" placeholder="Login" [formControl]="loginFormControl">
+        <mat-error *ngIf="loginFormControl.hasError('pattern') && !loginFormControl.hasError('required')">
+          Please enter a valid login name.
+        </mat-error>
+        <mat-error *ngIf="loginFormControl.hasError('required')">
+          Login is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput formControlName="password" type="password" placeholder="Password" [formControl]="passwordFormControl">
+        <mat-error *ngIf="passwordFormControl.hasError('minLength')">
+          Password error <strong>length.</strong>
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('maxLength')">
+          Password error <strong>length.</strong>
+        </mat-error>
+
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+<!-- authForm.controls.confirmPassword.errors?.MatchFields  -->
+
+      <mat-form-field class="example-full-width" style="padding-bottom: 20px;">
+        <input matInput formControlName="confirmPassword" type="password"
+               placeholder="Confirm password" [formControl]="confirmPasswordFormControl">
+        <mat-error *ngIf="confirmPasswordFormControl.hasError('minLength')">
+          Password error <strong>length.</strong>
+        </mat-error>
+          <mat-error *ngIf="confirmPasswordFormControl.hasError('maxLength')">
+            Password error <strong>length.</strong>
+          </mat-error>
+        <mat-error *ngIf="authForm.controls.confirmPassword.errors?.matchOther">
+          Passwords not equal.
+        </mat-error>
+        <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+
+        <!-- authForm.controls.confirmPassword.errors?.MatchFields  -->
+      </mat-form-field>
+      <mat-card-actions>
+        <button mat-raised-button type="submit" form="form1" class="center">Register</button>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+ <!-- <mat-card-actions>
+    <button mat-raised-button (click)="onSubmitMethod()" [disabled]="myForm.invalid" form="form1" class="center">Register</button>
+  </mat-card-actions> -->
+</mat-card>
+
+<!--&& !confirmPasswordFormControl.hasError('required') -->

@@ -1,0 +1,20 @@
+<div mat-dialog-content style="width: 100%!important; height: 100%!important;; margin-left: 5%!important;">
+    <span>{{this.id}}</span>
+    <mat-form-field>
+        <mat-select placeholder="User for call" panelClass="example-panel-green"
+                    [(ngModel)]="userCallControll">
+            <mat-option *ngFor="let user of this.users;" (onSelectionChange)="callUser(user)"
+                        [value]="user">{{user.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-icon-button
+            (click)="endCall()">
+            <!--[hidden]="this.toogle" -->
+        <mat-icon aria-label="Call">videocam</mat-icon>
+    </button>
+    <video class="mat-elevation-z5" #video1 style="width: 100%!important; height: 50%;"></video>
+    <video class="mat-elevation-z5" #video2 style="width: 100%!important; height: 50%;"></video>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Connect close</button>
+</div>

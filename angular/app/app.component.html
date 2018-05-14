@@ -1,0 +1,90 @@
+<div *ngIf="Small; then small_menu else big_menu"></div>
+<ng-template #big_menu>
+<mat-toolbar color="primary" class="mat-elevation-z7">
+    <mat-toolbar-row>
+
+        <span><h2 class="example-h2">{{title}}</h2></span>
+        <span class="example-spacer"></span>
+
+
+        <span class="nav-bottom"><button mat-button (click)="MainPageLink()" [ngClass]="{activeLink:toogleClass[0].indicate}">
+            <span>Home </span>
+            <mat-icon svgIcon="home-passive" *ngIf="end_navigation!=='/'; else main"></mat-icon>
+             <ng-template #main>
+                <mat-icon svgIcon="home-active"></mat-icon>
+            </ng-template>
+        </button>
+        </span>
+
+        <!--<div *ngxPermissionsOnly="['admin bun', 'admin delete tweet']">-->
+            <span class="nav-bottom" [hidden]="!this.permissionsService.getPermission('admin bun')">
+                <button mat-button routerLink="/admin">
+                    <span>Admin <mat-icon style="position: relative; top: 5px;">vpn_key</mat-icon></span>
+                </button>
+            </span>
+        <!--</div>-->
+
+
+        <span><span id="logout-text" [ngClass]="{active: activation}">Logout: </span>
+            <i class="material-icons md-36 example-icon" id="logout"
+               (click)="onLogout()" [ngClass]="{active: activation}">exit_to_app</i></span>
+    </mat-toolbar-row>
+</mat-toolbar>
+</ng-template>
+
+
+
+
+<ng-template #small_menu>
+    <mat-toolbar color="primary" class="mat-elevation-z7">
+        <mat-toolbar-row>
+            <span [style.top]="topp1==true?'-10px':'0px'"
+                  style="margin-right: 0px; position: relative; top: -10px">
+                <h2 class="example-h2">{{title}}</h2></span>
+            <span class="example-spacer"></span>
+            <span [style.top]="topp1==true?'-10px':'0px'"
+                  style="margin-right: 0px; position: relative; font-size: small; top: -10px">Navigate Menu</span>
+    <button mat-button [matMenuTriggerFor]="pages" [style.top]="topp==true?'-10px':'0px'"
+            style="margin-right: 0px; position: relative; top: -10px">
+        <div class="cssload-loader">
+            <div class="cssload-inner cssload-one"></div>
+            <div class="cssload-inner cssload-two"></div>
+            <div class="cssload-inner cssload-three"></div>
+        </div>
+    </button>
+
+    <mat-menu #pages="matMenu" color="primary" class="activeLink mainLink" [overlapTrigger]="false">
+        <button mat-menu-item class="activeLink2" (click)="MainPageLink()">
+            <mat-icon class="menu-bot" svgIcon="home-passive" *ngIf="end_navigation!=='/'; else main"></mat-icon>
+             <ng-template #main>
+                <mat-icon class="menu-bot" svgIcon="home-active"></mat-icon>
+            </ng-template>
+                 <span> Home </span>
+        </button>
+
+
+        <button mat-menu-item class="activeLink2" routerLink="/admin">
+            <mat-icon class="menu-bot" style="position: relative; top: 5px;">vpn_key</mat-icon>
+            <span>Admin </span>
+        </button>
+
+
+        <button mat-menu-item class="activeLink2">
+            <mat-icon class="menu-bot1" (click)="onLogout()">exit_to_app</mat-icon>
+            <span>Logout: </span>
+        </button>
+
+    </mat-menu>
+        </mat-toolbar-row>
+    </mat-toolbar>
+</ng-template>
+
+<mat-card class="content">
+    <mat-card-header>
+        <ngx-loading-bar color="#18FFFF" height="3px" [includeSpinner]="false"></ngx-loading-bar>
+    </mat-card-header>
+    <mat-card-content>
+        <router-outlet></router-outlet>
+        <!--  <re-captcha (resolved)="resolved($event)"></re-captcha> -->
+    </mat-card-content>
+</mat-card>
